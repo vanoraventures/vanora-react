@@ -1,8 +1,6 @@
 import React from "react";
 import { Story } from "@storybook/react";
-import Vanora from "../main";
 import Popup, { PopupProps, usePopup } from ".";
-import useWindowSize from "../../core/resize";
 
 export default {
     title: "Vanora-react/popup",
@@ -12,19 +10,17 @@ export default {
 const Template: Story<PopupProps> = (args: PopupProps) => {
     const popup = usePopup();
 
-    return <Vanora>
-        <>
-            <button onClick={() => popup.open()}>Open</button>
-            <Popup popup={popup} onOpen={() => { console.log("opened") }} onClose={() => { console.log("closed") }}>
-                <div className="popup-container">
-                    <div className="content">
-                        Test
-                    </div>
-                    <div className="popup-close" onClick={() => popup.close()}></div>
+    return <>
+        <button onClick={() => popup.open()}>Open</button>
+        <Popup popup={popup} onOpen={() => { console.log("opened") }} onClose={() => { console.log("closed") }}>
+            <div className="popup-container">
+                <div className="content">
+                    Test
                 </div>
-            </Popup>
-        </>
-    </Vanora>
+                <div className="popup-close" onClick={() => popup.close()}></div>
+            </div>
+        </Popup>
+    </>
 };
 
 export const Sample = Template.bind({});

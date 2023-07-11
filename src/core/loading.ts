@@ -1,4 +1,4 @@
-import { useVanoraStore } from "../components/main";
+import { useVanoraStore } from ".";
 
 /**
  * Returns two functions [decreaseLoading, increaseLoading]

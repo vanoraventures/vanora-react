@@ -1,9 +1,8 @@
-export { default as Vanora, useVanoraStore } from "./main";
+export { default as Loading } from "./loading";
 export { default as Tabs, TabMenu, TabContainer, TabItem, TabMenuItem } from "./tabs";
 export { default as Accordion, AccordionItem, AccordionBody, AccordionHeader } from "./accordion";
 export { default as Popup, usePopup } from "./popup";
 export { default as Portal } from "./portal";
-export { default as Image } from "./image";
 export { default as Background } from "./background";
 export { default as Form, FormContext, FormType, FormItem, useForm } from "./form";
 export { default as Checkbox } from "./form/items/checkbox";

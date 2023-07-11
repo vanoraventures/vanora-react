@@ -1,6 +1,5 @@
 import React from "react";
 import { Story } from "@storybook/react";
-import Vanora from "../main";
 import Background, { BackgroundProps } from ".";
 
 export default {
@@ -9,11 +8,9 @@ export default {
 };
 
 const Template: Story<BackgroundProps> = (args: BackgroundProps) =>
-    <Vanora>
-        <Background {...args}>
-            Sample
-        </Background>
-    </Vanora>;
+    <Background {...args}>
+        Sample
+    </Background>
 
 export const Sample = Template.bind({});
 Sample.args = {

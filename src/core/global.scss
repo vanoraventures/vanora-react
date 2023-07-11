@@ -19,7 +19,7 @@ html.lock {
 body {
     position: relative;
     min-height: 100vh;
-    font-size: 0;
+    font-size: .12rem;
     background-color: white;
 }
 
@@ -29,6 +29,7 @@ body {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    appearance: none !important;
     -webkit-appearance: none !important;
     -webkit-font-smoothing: antialiased;
 }
@@ -58,59 +59,6 @@ strong {
         width: auto !important;
         height: auto !important;
         max-width: 100% !important;
-    }
-}
-
-/* Loading */
-
-.loading {
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    position: fixed;
-    z-index: 9999;
-    background: rgba(0, 0, 0, 0.75);
-
-    .load {
-        width: 150px;
-        animation: loading 3s linear infinite;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        margin-left: -75px;
-        margin-top: -75px;
-
-        .loading-inner {
-            stroke-dashoffset: 0;
-            stroke-dasharray: 300;
-            stroke-width: 10;
-            stroke-miterlimit: 10;
-            stroke-linecap: round;
-            animation: loading-circle 2s linear infinite;
-            stroke: #1a1a1a;
-            fill: transparent;
-        }
-    }
-
-    @keyframes loading {
-        0% {
-            transform: rotate(0);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes loading-circle {
-        0% {
-            stroke-dashoffset: 0;
-        }
-
-        100% {
-            stroke-dashoffset: -600;
-        }
     }
 }
 

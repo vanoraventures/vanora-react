@@ -5,7 +5,7 @@
     "scripts": {
         "rollup": "rollup -c",
         "test": "jest",
-        "storybook": "start-storybook -p 6006",
+        "start": "start-storybook -p 6006",
         "build-storybook": "build-storybook"
     },
     "author": "Sezgi Güneş",
@@ -67,5 +67,5 @@
     "bugs": {
         "url": "https://github.com/vanoraventures/vanora-react/issues"
     },
-    "homepage": "https://vanoraventures.com/"
+    "homepage": "https://vanoraventures.com"
 }

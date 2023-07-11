@@ -9,10 +9,10 @@ export type PortalProps = {
 /**
  * Easy usage for React Portals
  */
-const Portal = (props: PortalProps) => {
-    return <>
-        {ReactDOM.createPortal(props.children, document.querySelector(props.targetSelector ?? "body") as HTMLElement)}
-    </>;
-};
+const Portal = (props: PortalProps) => <>
+    {typeof (window) != "undefined" &&
+        <>{ReactDOM.createPortal(props.children, document.querySelector(props.targetSelector ?? "body") as HTMLElement)}</>
+    }
+</>
 
 export default Portal;

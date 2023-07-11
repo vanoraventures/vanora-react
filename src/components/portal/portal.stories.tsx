@@ -1,6 +1,5 @@
 import React from "react";
 import { Story } from "@storybook/react";
-import Vanora from "../main";
 import Portal, { PortalProps } from ".";
 
 export default {
@@ -9,12 +8,10 @@ export default {
 };
 
 const Template: Story<PortalProps> = (args: PortalProps) =>
-    <Vanora>
-        <Portal {...args}>
-            <div>test</div>
-            <div>test2</div>
-        </Portal>
-    </Vanora>;
+    <Portal {...args}>
+        <div>test</div>
+        <div>test2</div>
+    </Portal>
 
 export const Sample = Template.bind({});
 Sample.args = {

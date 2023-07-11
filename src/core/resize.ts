@@ -1,4 +1,4 @@
-import { useVanoraStore } from "../components/main";
+import { useVanoraStore } from ".";
 
 /**
  * Returns an object { width: number | undefined; height: number | undefined; isMobile: boolean; }

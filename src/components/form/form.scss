@@ -1,0 +1,14 @@
+$datepicker__border-radius: 5px;
+$datepicker__day-margin: 3px;
+$datepicker__font-size: 14px;
+$datepicker__font-family: inherit;
+$datepicker__item-size: 30px;
+$datepicker__margin: 7px;
+$datepicker__navigation-button-size: 32px;
+$datepicker__triangle-size: 8px;
+
+@import "../../../node_modules/react-datepicker/src/stylesheets/datepicker.scss";
+
+.react-datepicker__triangle {
+    display: none !important;
+}

@@ -1,3 +1,3 @@
 # Vanora Ventures React Library
 
-[Vanora Venture](https://vanoraventures.com/)
+[Vanora Ventures](https://vanoraventures.com/)

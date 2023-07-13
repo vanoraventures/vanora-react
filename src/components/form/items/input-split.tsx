@@ -12,7 +12,6 @@ type InputSplitProps = FormItemProps & FormKeyEvents & FormMouseEvents & {
 }
 
 const InputSplit = (props: InputSplitProps) => {
-    const inputs = useRef(new Array<HTMLInputElement>());
     const context = useContext(FormContext);
     const item = context.model.find(x => x.name === props.name);
 
@@ -38,16 +37,20 @@ const InputSplit = (props: InputSplitProps) => {
         }
     }, []);
 
-    const handleChange = (value: string, index: number) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputs = event.currentTarget.parentElement?.querySelectorAll("input");
         let currentValue = "";
-        for (var i = 0; i < inputs.current.length; i++) {
-            currentValue += inputs.current[i].value;
+        
+        if (inputs) {
+            for (var i = 0; i < inputs.length; i++) {
+                currentValue += inputs[i].value;
+            }
         }
 
-        if (value) {
-            const newIndex = index + 1;
-            if (newIndex < props.charCount) {
-                inputs.current[newIndex].focus();
+        if (event.currentTarget.value) {
+            const next = event.currentTarget.nextElementSibling as HTMLInputElement;
+            if (next) {
+                next.focus();
             }
         }
 
@@ -63,34 +66,31 @@ const InputSplit = (props: InputSplitProps) => {
         }
     }
 
-    const onKeyDown = (event: React.KeyboardEvent, index: number) => {
-        const key = event.key;
-        var inputValue = inputs.current[index].value;
-
-        if (key === "ArrowLeft") {
-            const newIndex = index - 1;
-            if (newIndex >= 0) {
-                inputs.current[newIndex].focus();
-                inputs.current[newIndex].selectionStart = 1;
-                inputs.current[newIndex].selectionEnd = 1;
+    const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "ArrowLeft") {
+            const prev = event.currentTarget.previousElementSibling as HTMLInputElement;
+            if (prev) {
+                prev.focus();
+                prev.selectionStart = 1;
+                prev.selectionEnd = 1;
                 event.preventDefault();
             }
         }
-        else if (key === "ArrowRight") {
-            const newIndex = index + 1;
-            if (newIndex < props.charCount) {
-                inputs.current[newIndex].focus();
-                inputs.current[newIndex].selectionStart = 1;
-                inputs.current[newIndex].selectionEnd = 1;
+        else if (event.key === "ArrowRight") {
+            const next = event.currentTarget.nextElementSibling as HTMLInputElement;
+            if (next) {
+                next.focus();
+                next.selectionStart = 1;
+                next.selectionEnd = 1;
                 event.preventDefault();
             }
         }
-        else if (key === "Backspace") {
-            const newIndex = index - 1;
-            if (inputValue === "" && newIndex >= 0) {
-                inputs.current[newIndex].focus();
-                inputs.current[newIndex].selectionStart = 1;
-                inputs.current[newIndex].selectionEnd = 1;
+        else if (event.key === "Backspace") {
+            const prev = event.currentTarget.previousElementSibling as HTMLInputElement;
+            if (event.currentTarget.value === "" && prev) {
+                prev.focus();
+                prev.selectionStart = 1;
+                prev.selectionEnd = 1;
             }
         }
     }
@@ -98,13 +98,12 @@ const InputSplit = (props: InputSplitProps) => {
     let items = [];
     for (let i = 0; i < props.charCount; i++) {
         items.push(<input
-            ref={e => { if (e) { inputs.current[i] = e } }}
             maxLength={1}
             type="text"
             value={item?.value.substr(i, 1) ?? ""}
-            onChange={(e) => handleChange(e.target.value, i)} key={"input-split-" + i}
+            onChange={(e) => handleChange(e)} key={"input-split-" + i}
             onKeyPress={(e) => { permitKey(e, item); if (props.onKeyPress) { props.onKeyPress(e); } }}
-            onKeyDown={(e) => { onKeyDown(e, i); if (props.onKeyDown) { props.onKeyDown(e); } }}
+            onKeyDown={(e) => { onKeyDown(e); if (props.onKeyDown) { props.onKeyDown(e); } }}
             onKeyUp={props.onKeyUp}
             onFocus={props.onFocus}
             onBlur={props.onBlur}

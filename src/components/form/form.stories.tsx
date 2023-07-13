@@ -5,6 +5,7 @@ import { Validate } from './models/validations';
 import InputText from "./items/input-text";
 import FileUpload from "./items/file-upload";
 import { Permit } from "./models/permissions";
+import InputSplit from "./items/input-split";
 
 export default {
     title: "Vanora-react/form",
@@ -16,7 +17,7 @@ const Template: Story = (args) => {
 
     return <>
         <Form form={form} onSubmit={(model: FormType) => {
-            console.log(model.getAllJson());
+            console.log(model.getAll());
         }}>
             {() => {
                 return <>
@@ -27,6 +28,7 @@ const Template: Story = (args) => {
                         ]}
                         validations={[Validate.Tckn("HATATATA")]}
                     ></InputText>
+                    <InputSplit name="asd" charCount={5} validations={[Validate.Required()]}></InputSplit>
                     <FileUpload name="file"></FileUpload>
                     <button>Submit</button>
                 </>

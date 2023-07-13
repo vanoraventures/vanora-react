@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { ReactNode, useContext, useEffect, useRef } from "react";
 import { FormContext, FormItemProps, FormKeyEvents, FormMouseEvents } from "..";
 import { validateFormItem } from "../models/validations";
 import ErrorMessage from './errorMessage';
@@ -12,7 +12,6 @@ type FileUploadProps = FormItemProps & FormKeyEvents & FormMouseEvents & {
 const FileUpload = (props: FileUploadProps) => {
     const context = useContext(FormContext);
     const item = context.model.find(x => x.name === props.name);
-    const input = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (context.model.some(x => x.name === props.name)) {
@@ -36,24 +35,24 @@ const FileUpload = (props: FileUploadProps) => {
         }
     }, []);
 
-    const handleChange = (value: string) => {
+    const handleChange = (input: EventTarget & HTMLInputElement) => {
         if (item) {
-            if (input && input.current) {
-                if (input.current.files && input.current.files.length > 0) {
-                    item.data = input.current.files[0];
+            if (input) {
+                if (input.files && input.files.length > 0) {
+                    item.data = input.files[0];
                 }
                 else {
                     item.data = "";
                 }
             }
 
-            item.value = value;
+            item.value = input.value;
             validateFormItem(item, context.model);
 
             context.setModel([...context.model]);
 
             if (props.onChange) {
-                props.onChange(value);
+                props.onChange(input.value);
             }
         }
     }
@@ -64,11 +63,10 @@ const FileUpload = (props: FileUploadProps) => {
                 <label>{props.label}</label>
             }
             <input
-                ref={input}
                 type="file"
                 name={props.name}
                 defaultValue={props.value}
-                onChange={(e) => handleChange(e.currentTarget.value)}
+                onChange={(e) => handleChange(e.currentTarget)}
                 onKeyPress={props.onKeyPress}
                 onKeyDown={props.onKeyDown}
                 onKeyUp={props.onKeyUp}

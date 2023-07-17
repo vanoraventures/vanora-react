@@ -1,4 +1,4 @@
-import { useVanoraStore } from ".";
+import useVanoraStore from "./core";
 
 /**
  * Returns two functions [lockScroll, unlockScroll]

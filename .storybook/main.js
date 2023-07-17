@@ -6,9 +6,11 @@ module.exports = {
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
+    "@storybook/addon-interactions",
     "@storybook/preset-scss"
   ],
+  "framework": "@storybook/react",
   "core": {
-    "builder": "webpack5"
+    "builder": "@storybook/builder-webpack5"
   }
 }

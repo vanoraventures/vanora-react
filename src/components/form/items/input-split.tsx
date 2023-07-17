@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { FormContext, FormItemProps, FormKeyEvents, FormMouseEvents } from '..';
 import { permitKey, Permission } from '../models/permissions';
 import { validateFormItem } from '../models/validations';

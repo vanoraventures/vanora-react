@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import tr from "date-fns/locale/tr";
 import { useState } from "react";
 import { validateFormItem } from '../models/validations';
-import { FormContext, FormItemProps, FormMouseEvents } from '..';
+import { FormContext, FormItemProps, FormItemType, FormMouseEvents } from '..';
 
 type InputDateProps = FormItemProps & FormMouseEvents & {
     isDisabled?: boolean,
@@ -35,6 +35,7 @@ const InputDate = (props: InputDateProps) => {
             model.push({
                 name: props.name,
                 value: props.value ?? "",
+                type: FormItemType.Input,
                 validations: props.validations,
                 isValid: (props.validations ? props.isValid : true)
             });
@@ -46,6 +47,13 @@ const InputDate = (props: InputDateProps) => {
             context.setModel(model => [...model.filter(x => x.name !== props.name)]);
         }
     }, []);
+
+    useEffect(() => {
+        if (item) {
+            item.value = props.value ?? "";
+            context.setModel([...context.model]);
+        }
+    }, [props.value]);
 
     const handleChange = (date: Date) => {
         const value = date.toLocaleString(props.customization?.submitFormat?.locales ?? "tr-TR", props.customization?.submitFormat?.options ?? { year: 'numeric', month: 'numeric', day: 'numeric' });

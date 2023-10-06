@@ -1,10 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { FormContext, FormItemProps, FormMouseEvents } from '..';
+import { FormContext, FormItemProps, FormItemType, FormMouseEvents, Overwrite } from '..';
 import { validateFormItem } from '../models/validations';
 import ErrorMessage from './errorMessage';
 
-type CheckboxProps = FormItemProps & FormMouseEvents & {
-    checked?: boolean,
+type CheckboxProps = Overwrite<FormItemProps, { value?: boolean }> & FormMouseEvents & {
     label?: JSX.Element | JSX.Element[] | string,
     isDisabled?: boolean
 }
@@ -21,7 +20,8 @@ const Checkbox = (props: CheckboxProps) => {
         context.setModel(model => {
             model.push({
                 name: props.name,
-                value: props.checked ? props.value ?? "" : "",
+                value: props.value ? "true" : "",
+                type: FormItemType.Checkbox,
                 validations: props.validations,
                 isValid: (props.validations ? props.isValid : true)
             });
@@ -34,7 +34,14 @@ const Checkbox = (props: CheckboxProps) => {
         }
     }, []);
 
-    const handleChange = (value: any) => {
+    useEffect(() => {
+        if (item) {
+            item.value = props.value ? "true" : "";
+            context.setModel([...context.model]);
+        }
+    }, [props.value]);
+
+    const handleChange = (value: string) => {
         if (item) {
             item.value = value;
             validateFormItem(item, context.model);
@@ -48,13 +55,13 @@ const Checkbox = (props: CheckboxProps) => {
     }
 
     return (
-        <div className={"form-item" + (item?.value == props.value ? " filled" : "") + (item?.isValid === false ? " error" : "") + (props.classNames ? " " + props.classNames : "")}>
+        <div className={"form-item" + (item?.value == "true" ? " filled" : "") + (item?.isValid === false ? " error" : "") + (props.classNames ? " " + props.classNames : "")}>
             <input
                 type="checkbox"
                 id={props.name}
                 name={props.name}
-                checked={props.checked}
-                onChange={(e) => { handleChange(e.target.checked ? props.value : "") }}
+                checked={item?.value == "true"}
+                onChange={(e) => { handleChange(e.target.checked ? "true" : "") }}
                 onFocus={props.onFocus}
                 onBlur={props.onBlur}
                 onClick={props.onClick}

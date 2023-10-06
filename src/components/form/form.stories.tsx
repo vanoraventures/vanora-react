@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Story } from "@storybook/react";
 import Form, { useForm, FormType } from ".";
-import { Validate } from './models/validations';
 import InputText from "./items/input-text";
-import FileUpload from "./items/file-upload";
-import { Permit } from "./models/permissions";
-import InputSplit from "./items/input-split";
+import Checkbox from "./items/checkbox";
+import Recaptcha from "./items/recaptcha";
 
 export default {
     title: "Vanora-react/form",
@@ -16,26 +14,15 @@ const Template: Story = (args) => {
     const form = useForm();
 
     return <>
-        <Form form={form} onSubmit={(model: FormType) => {
-            console.log(model.getAll());
+        <Recaptcha siteKey="6Lcv1HkoAAAAAPrWnLBgdKGa2UHOiZk5jNDThH3I" />
+        <Form form={form} onSubmit={async (model: FormType) => {
+            console.log(await model.getAllJson());
         }}>
-            {() => {
-                return <>
-                    <InputText name='fullname'
-                        permissions={[
-                            Permit.MaxLength(11),
-                            Permit.OnlyNumber()
-                        ]}
-                        validations={[Validate.Tckn("HATATATA")]}
-                    ></InputText>
-                    <InputSplit name="asd" charCount={5} validations={[Validate.Required()]}></InputSplit>
-                    <FileUpload name="file"></FileUpload>
-                    <button>Submit</button>
-                </>
-            }}
+            <Checkbox name="test" value={true}></Checkbox>
+            <button>Submit</button>
         </Form>
 
-        <button onClick={() => { form.clear(); }}>Change</button>
+        <button onClick={async () => { console.log(await form.getRecaptchaToken()); }}>Temizle</button>
     </>
 };
 

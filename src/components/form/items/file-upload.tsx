@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { FormContext, FormItemProps, FormKeyEvents, FormMouseEvents } from "..";
+import { FormContext, FormItemProps, FormItemType, FormKeyEvents, FormMouseEvents } from "..";
 import { validateFormItem } from "../models/validations";
 import ErrorMessage from './errorMessage';
 
@@ -22,6 +22,7 @@ const FileUpload = (props: FileUploadProps) => {
             model.push({
                 name: props.name,
                 value: props.value ?? "",
+                type: FormItemType.File,
                 validations: props.validations,
                 isValid: (props.validations ? props.isValid : true),
                 data: ""
@@ -34,6 +35,13 @@ const FileUpload = (props: FileUploadProps) => {
             context.setModel(model => [...model.filter(x => x.name !== props.name)]);
         }
     }, []);
+
+    useEffect(() => {
+        if (item) {
+            item.value = props.value ?? "";
+            context.setModel([...context.model]);
+        }
+    }, [props.value]);
 
     const handleChange = (input: EventTarget & HTMLInputElement) => {
         if (item) {
@@ -65,7 +73,7 @@ const FileUpload = (props: FileUploadProps) => {
             <input
                 type="file"
                 name={props.name}
-                defaultValue={props.value}
+                defaultValue={item?.value}
                 onChange={(e) => handleChange(e.currentTarget)}
                 onKeyPress={props.onKeyPress}
                 onKeyDown={props.onKeyDown}

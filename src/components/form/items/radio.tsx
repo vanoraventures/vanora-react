@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { FormContext, FormItemProps, FormMouseEvents } from '..';
+import { FormContext, FormItemProps, FormItemType, FormMouseEvents } from '..';
 import { validateFormItem } from '../models/validations';
 import ErrorMessage from './errorMessage';
 
@@ -24,6 +24,7 @@ const Radio = (props: RadioProps) => {
             model.push({
                 name: props.name,
                 value: props.value ?? "",
+                type: FormItemType.Radio,
                 validations: props.validations,
                 isValid: (props.validations ? props.isValid : true)
             });
@@ -35,6 +36,13 @@ const Radio = (props: RadioProps) => {
             context.setModel(model => [...model.filter(x => x.name !== props.name)]);
         }
     }, []);
+
+    useEffect(() => {
+        if (item) {
+            item.value = props.value ?? "";
+            context.setModel([...context.model]);
+        }
+    }, [props.value]);
 
     const handleChange = (value: any) => {
         if (item) {

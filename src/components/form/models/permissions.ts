@@ -45,6 +45,7 @@ export const Permit = {
     }
 }
 
+//TODO: Prevent autocomplete & paste on Permissions
 export const permitKey = (event: React.KeyboardEvent, item?: FormItem) => {
     let isValid = true;
 
@@ -69,6 +70,10 @@ export const permitKey = (event: React.KeyboardEvent, item?: FormItem) => {
             }
             else if (permission.type === PermissionType.Custom && permission.rule) {
                 isValid = permission.rule(event);
+
+                if (!isValid) {
+                    event.preventDefault();
+                }
             }
         });
     }

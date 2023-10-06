@@ -3,7 +3,7 @@ import ErrorMessage from "./errorMessage";
 import { KeyboardEventHandler, useContext, useEffect, useState } from "react";
 import React from 'react';
 import { validateFormItem } from '../models/validations';
-import { FormContext, FormItemProps } from '..';
+import { FormContext, FormItemProps, FormItemType } from '..';
 
 type DropdownProps = FormItemProps & {
     label?: string,
@@ -35,6 +35,7 @@ const Dropdown = (props: DropdownProps) => {
             model.push({
                 name: props.name,
                 value: props.value ?? "",
+                type: FormItemType.Dropdown,
                 validations: props.validations,
                 isValid: (props.validations ? props.isValid : true)
             });
@@ -46,6 +47,13 @@ const Dropdown = (props: DropdownProps) => {
             context.setModel(model => [...model.filter(x => x.name !== props.name)]);
         }
     }, []);
+
+    useEffect(() => {
+        if (item) {
+            item.value = props.value ?? "";
+            context.setModel([...context.model]);
+        }
+    }, [props.value]);
 
     const handleChange = (value: any) => {
         if (item) {

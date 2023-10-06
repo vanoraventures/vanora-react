@@ -15,7 +15,8 @@ type VanoraStore = {
     increaseLoading: () => void,
     decreaseLoading: () => void,
     setScroll: (scroll: { lastScrollPosition: number, lockedScrollCount: number }) => void,
-    setSize: (loading: { width?: number, height?: number, isMobile: boolean }) => void
+    setSize: (loading: { width?: number, height?: number, isMobile: boolean }) => void,
+    getRecaptchaToken?: () => Promise<string>
 }
 
 const useVanoraStore = create<VanoraStore>(set => ({
@@ -25,14 +26,14 @@ const useVanoraStore = create<VanoraStore>(set => ({
         lockedScrollCount: 0
     },
     size: {
-        width: 0,
-        height: 0,
-        isMobile: false
+        width: typeof (window) != "undefined" ? window.innerWidth : 0,
+        height: typeof (window) != "undefined" ? window.innerHeight : 0,
+        isMobile: typeof (window) != "undefined" ? window.innerWidth <= 900 : false
     },
     increaseLoading: () => set((state) => { return { ...state, loading: state.loading + 1 } }),
     decreaseLoading: () => set((state) => { return { ...state, loading: state.loading - 1 } }),
     setScroll: (scroll: { lastScrollPosition: number, lockedScrollCount: number }) => set({ scroll }),
-    setSize: (size: { width?: number, height?: number, isMobile: boolean }) => set({ size })
+    setSize: (size: { width?: number, height?: number, isMobile: boolean }) => set({ size }),
 }));
 
 if (typeof (window) != "undefined") {
@@ -42,9 +43,9 @@ if (typeof (window) != "undefined") {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             useVanoraStore.getState().setSize({
-                width: document.documentElement.clientWidth,
+                width: window.innerWidth,
                 height: window.innerHeight,
-                isMobile: document.documentElement.clientWidth <= 900
+                isMobile: window.innerWidth <= 900
             });
         }, 250);
     });

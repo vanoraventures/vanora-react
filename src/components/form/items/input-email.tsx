@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { FormContext, FormItemProps, FormKeyEvents, FormMouseEvents } from '..';
+import { FormContext, FormItemProps, FormItemType, FormKeyEvents, FormMouseEvents } from '..';
 import { Permission, permitKey } from '../models/permissions';
 import { validateFormItem } from '../models/validations';
 import ErrorMessage from './errorMessage';
@@ -24,6 +24,7 @@ const InputEmail = (props: InputTextProps) => {
             model.push({
                 name: props.name,
                 value: props.value ?? "",
+                type: FormItemType.Input,
                 validations: props.validations,
                 permissions: props.permissions,
                 isValid: (props.validations ? props.isValid : true)
@@ -36,6 +37,13 @@ const InputEmail = (props: InputTextProps) => {
             context.setModel(model => [...model.filter(x => x.name !== props.name)]);
         }
     }, []);
+
+    useEffect(() => {
+        if (item) {
+            item.value = props.value ?? "";
+            context.setModel([...context.model]);
+        }
+    }, [props.value]);
 
     const handleChange = (value: string) => {
         if (item) {

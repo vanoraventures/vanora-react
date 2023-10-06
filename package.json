@@ -61,6 +61,7 @@
     "types": "dist/index.d.ts",
     "dependencies": {
         "react-datepicker": "^4.8.0",
+        "react-google-recaptcha-v3": "^1.10.1",
         "react-input-mask": "^2.0.4",
         "react-number-format": "^4.9.3",
         "react-select": "^5.3.2",

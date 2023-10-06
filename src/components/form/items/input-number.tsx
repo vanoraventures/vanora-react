@@ -2,7 +2,7 @@ import ErrorMessage from './errorMessage';
 import NumberFormat from 'react-number-format';
 import React, { useContext, useEffect } from 'react';
 import { validateFormItem } from '../models/validations';
-import { FormContext, FormItemProps, FormKeyEvents, FormMouseEvents } from '..';
+import { FormContext, FormItemProps, FormItemType, FormKeyEvents, FormMouseEvents } from '..';
 
 type InputNumberProps = FormItemProps & FormKeyEvents & FormMouseEvents & {
     isDisabled?: boolean,
@@ -31,6 +31,7 @@ const InputNumber = (props: InputNumberProps) => {
             model.push({
                 name: props.name,
                 value: props.value ?? "",
+                type: FormItemType.Input,
                 validations: props.validations,
                 isValid: (props.validations ? props.isValid : true)
             });
@@ -42,6 +43,13 @@ const InputNumber = (props: InputNumberProps) => {
             context.setModel(model => [...model.filter(x => x.name !== props.name)]);
         }
     }, []);
+
+    useEffect(() => {
+        if (item) {
+            item.value = props.value ?? "";
+            context.setModel([...context.model]);
+        }
+    }, [props.value]);
 
     const handleChange = (value: string) => {
         if (item) {

@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import ErrorMessage from './errorMessage';
 import InputMask from "react-input-mask";
 import { permitKey, Permission } from '../models/permissions';
-import { FormContext, FormItemProps, FormKeyEvents, FormMouseEvents } from '..';
+import { FormContext, FormItemProps, FormItemType, FormKeyEvents, FormMouseEvents } from '..';
 import { validateFormItem } from '../models/validations';
 
 type InputTextProps = FormItemProps & FormKeyEvents & FormMouseEvents & {
@@ -26,6 +26,7 @@ const InputText = (props: InputTextProps) => {
             model.push({
                 name: props.name,
                 value: props.value ?? "",
+                type: FormItemType.Input,
                 validations: props.validations,
                 permissions: props.permissions,
                 isValid: (props.validations ? props.isValid : true)
@@ -38,6 +39,13 @@ const InputText = (props: InputTextProps) => {
             context.setModel(model => [...model.filter(x => x.name !== props.name)]);
         }
     }, []);
+
+    useEffect(() => {
+        if (item) {
+            item.value = props.value ?? "";
+            context.setModel([...context.model]);
+        }
+    }, [props.value]);
 
     const handleChange = (value: string) => {
         if (item) {
@@ -62,7 +70,7 @@ const InputText = (props: InputTextProps) => {
                     type="text"
                     name={props.name}
                     placeholder={props.placeholder}
-                    value={item?.value ?? ""}
+                    value={item?.value}
                     mask={props.mask}
                     onChange={(e) => { handleChange(e.target.value) }}
                     onKeyPress={(e) => { permitKey(e, item); if (props.onKeyPress) { props.onKeyPress(e); } }}
@@ -83,7 +91,7 @@ const InputText = (props: InputTextProps) => {
                     type="text"
                     name={props.name}
                     placeholder={props.placeholder}
-                    value={item?.value ?? ""}
+                    value={item?.value}
                     onChange={(e) => { handleChange(e.target.value) }}
                     onKeyPress={(e) => { permitKey(e, item); if (props.onKeyPress) { props.onKeyPress(e); } }}
                     onKeyDown={props.onKeyDown}

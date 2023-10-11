@@ -73,7 +73,7 @@ const FileUpload = (props: FileUploadProps) => {
             <input
                 type="file"
                 name={props.name}
-                defaultValue={item?.value}
+                value={item?.value}
                 onChange={(e) => handleChange(e.currentTarget)}
                 onKeyPress={props.onKeyPress}
                 onKeyDown={props.onKeyDown}

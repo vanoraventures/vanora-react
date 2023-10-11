@@ -65,7 +65,7 @@ const Radio = (props: RadioProps) => {
                         type="radio"
                         id={props.name + "-" + index}
                         name={props.name}
-                        defaultValue={radio.value}
+                        value={radio.value}
                         checked={radio.value === item?.value}
                         onChange={(e) => { handleChange(e.target.value) }}
                         onFocus={props.onFocus}

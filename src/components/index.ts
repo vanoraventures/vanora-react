@@ -17,5 +17,6 @@ export { default as InputText } from "./form/items/input-text";
 export { default as Radio } from "./form/items/radio";
 export { default as Textarea } from "./form/items/textarea";
 export { default as ErrorMessage } from "./form/items/errorMessage";
+export { default as Recaptcha } from "./form/items/recaptcha";
 export { Validation, ValidationType, Validate } from "./form/models/validations";
 export { Permission, PermissionType, Permit } from "./form/models/permissions";

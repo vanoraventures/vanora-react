@@ -116,7 +116,8 @@ export enum FormItemType {
     Radio = "radio",
     Textarea = "textarea",
     Dropdown = "dropdown",
-    File = "file"
+    File = "file",
+    MultipleFile = "multiple-file"
 }
 
 type FormContextType = {
@@ -162,7 +163,17 @@ const Form = (props: FormProps) => {
         const [reCaptchaLabel, reCaptchaToken] = await getRecaptchaData();
 
         model.forEach(item => {
-            formData.append(item.name, item.data ?? (item.type == FormItemType.Checkbox ? item.value == "true" : item.value));
+            if (item.type == FormItemType.File) {
+                formData.append(item.name, item.data);
+            }
+            else if (item.type == FormItemType.MultipleFile) {
+                for (let i = 0; i < item.data.length; i++) {
+                    formData.append(item.name, item.data[i]);
+                }
+            }
+            else {
+                formData.append(item.name, item.value);
+            }
         });
 
         if (reCaptchaLabel && reCaptchaToken) {

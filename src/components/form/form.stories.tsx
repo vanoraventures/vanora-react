@@ -25,12 +25,16 @@ const Template: Story = (args) => {
     return <>
         {/* <Recaptcha siteKey="6Lcv1HkoAAAAAPrWnLBgdKGa2UHOiZk5jNDThH3I" /> */}
         <Form form={form} onSubmit={async (model: FormType) => {
-            console.log(await model.getAllJson());
+            for (var pair of (await model.getFormData() as any).entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+            // console.log(await model.getFormData());
         }}>
             <Radio value={test} name="asd" options={[
                 { label: "1", value: "1" },
                 { label: "2", value: "2" }
             ]}></Radio>
+            <FileUpload name="files" multiple={true}></FileUpload>
             <Checkbox name="test" value={true}></Checkbox>
             <button>Submit</button>
         </Form>

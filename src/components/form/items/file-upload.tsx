@@ -6,7 +6,8 @@ import ErrorMessage from './errorMessage';
 type FileUploadProps = FormItemProps & FormKeyEvents & FormMouseEvents & {
     isDisabled?: boolean,
     label?: string,
-    allowedTypes?: string
+    allowedTypes?: string,
+    multiple?: boolean
 }
 
 const FileUpload = (props: FileUploadProps) => {
@@ -22,7 +23,7 @@ const FileUpload = (props: FileUploadProps) => {
             model.push({
                 name: props.name,
                 value: props.value ?? "",
-                type: FormItemType.File,
+                type: props.multiple ? FormItemType.MultipleFile : FormItemType.File,
                 validations: props.validations,
                 isValid: (props.validations ? props.isValid : true),
                 data: ""
@@ -47,7 +48,12 @@ const FileUpload = (props: FileUploadProps) => {
         if (item) {
             if (input) {
                 if (input.files && input.files.length > 0) {
-                    item.data = input.files[0];
+                    if (props.multiple) {
+                        item.data = input.files;
+                    }
+                    else {
+                        item.data = input.files[0];
+                    }
                 }
                 else {
                     item.data = "";
@@ -74,6 +80,7 @@ const FileUpload = (props: FileUploadProps) => {
                 type="file"
                 name={props.name}
                 value={item?.value}
+                multiple={props.multiple}
                 onChange={(e) => handleChange(e.currentTarget)}
                 onKeyPress={props.onKeyPress}
                 onKeyDown={props.onKeyDown}

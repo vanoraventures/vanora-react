@@ -6,6 +6,7 @@ import Checkbox from "./items/checkbox";
 import Recaptcha from "./items/recaptcha";
 import FileUpload from "./items/file-upload";
 import Radio from "./items/radio";
+import InputDate from "./items/input-date";
 
 export default {
     title: "Vanora-react/form",
@@ -34,8 +35,9 @@ const Template: Story = (args) => {
                 { label: "1", value: "1" },
                 { label: "2", value: "2" }
             ]}></Radio>
-            <FileUpload name="files" multiple={true}></FileUpload>
-            <Checkbox name="test" value={true}></Checkbox>
+            <InputDate name="date" value={"2023-12-06T00:00:00"} customization={{ format: "dd/MM/yyyy" }}></InputDate>
+            {/* <FileUpload name="files" multiple={true}></FileUpload>
+            <Checkbox name="test" value={true}></Checkbox> */}
             <button>Submit</button>
         </Form>
 

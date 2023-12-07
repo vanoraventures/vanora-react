@@ -22,7 +22,7 @@ type InputDateProps = FormItemProps & FormMouseEvents & {
 }
 
 const InputDate = (props: InputDateProps) => {
-    const [selectedDate, setSelectedDate] = useState<Date>();
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(props.value ? new Date(props.value) : undefined);
     const context = useContext(FormContext);
     const item = context.model.find(x => x.name === props.name);
 

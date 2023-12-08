@@ -15,11 +15,11 @@ export default {
 
 const Template: Story = (args) => {
     const form = useForm();
-    const [test, setTest] = useState("1");
+    const [test, setTest] = useState<string | undefined>();
 
     useEffect(() => {
         setTimeout(() => {
-            setTest("2");
+            setTest("2023-12-06T00:00:00");
         }, 3000);
     }, []);
 
@@ -31,11 +31,11 @@ const Template: Story = (args) => {
             }
             // console.log(await model.getFormData());
         }}>
-            <Radio value={test} name="asd" options={[
+            {/* <Radio value={test} name="asd" options={[
                 { label: "1", value: "1" },
                 { label: "2", value: "2" }
-            ]}></Radio>
-            <InputDate name="date" value={"2023-12-06T00:00:00"} customization={{ format: "dd/MM/yyyy" }}></InputDate>
+            ]}></Radio> */}
+            <InputDate name="date" value={test} customization={{ format: "dd/MM/yyyy" }}></InputDate>
             {/* <FileUpload name="files" multiple={true}></FileUpload>
             <Checkbox name="test" value={true}></Checkbox> */}
             <button>Submit</button>

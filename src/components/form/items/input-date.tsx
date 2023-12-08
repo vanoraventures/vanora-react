@@ -51,6 +51,7 @@ const InputDate = (props: InputDateProps) => {
     useEffect(() => {
         if (item) {
             item.value = props.value ?? "";
+            setSelectedDate(props.value ? new Date(props.value) : undefined);
             context.setModel([...context.model]);
         }
     }, [props.value]);

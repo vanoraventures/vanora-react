@@ -88,7 +88,8 @@ const InputDate = (props: InputDateProps) => {
                 name={props.name}
                 selected={selectedDate}
                 placeholderText={props.placeholder}
-                autoComplete="off"
+                tabIndex={props.tabIndex}
+                autoComplete={props.autoComplete}
                 dateFormat={props.customization?.format ?? "dd/MM/yyyy"}
                 locale={tr}
                 minDate={props.customization?.minDate}

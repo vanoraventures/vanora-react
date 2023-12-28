@@ -81,6 +81,8 @@ const FileUpload = (props: FileUploadProps) => {
                 name={props.name}
                 value={item?.value}
                 multiple={props.multiple}
+                tabIndex={props.tabIndex}
+                autoComplete={props.autoComplete}
                 onChange={(e) => handleChange(e.currentTarget)}
                 onKeyPress={props.onKeyPress}
                 onKeyDown={props.onKeyDown}

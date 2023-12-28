@@ -67,6 +67,8 @@ const Textarea = (props: TextareaProps) => {
                 name={props.name}
                 value={item?.value ?? ""}
                 placeholder={props.placeholder}
+                tabIndex={props.tabIndex}
+                autoComplete={props.autoComplete}
                 onChange={(e) => { handleChange(e.target.value) }}
                 onKeyPress={(e) => { permitKey(e, item); if (props.onKeyPress) { props.onKeyPress(e); } }}
                 onKeyDown={props.onKeyDown}

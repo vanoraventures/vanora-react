@@ -1,6 +1,6 @@
 export { default as Loading } from "./loading";
-export { default as Tabs, TabMenu, TabContainer, TabItem, TabMenuItem } from "./tabs";
-export { default as Accordion, AccordionItem, AccordionBody, AccordionHeader } from "./accordion";
+export { default as Tabs, TabMenu, TabContainer, TabItem, TabMenuItem, TabsType, useTabs } from "./tabs";
+export { default as Accordion, AccordionItem, AccordionBody, AccordionHeader, AccordionType, useAccordion } from "./accordion";
 export { default as Popup, usePopup } from "./popup";
 export { default as Portal } from "./portal";
 export { default as Background } from "./background";

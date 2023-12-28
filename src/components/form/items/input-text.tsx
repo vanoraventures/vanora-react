@@ -72,6 +72,8 @@ const InputText = (props: InputTextProps) => {
                     placeholder={props.placeholder}
                     value={item?.value}
                     mask={props.mask}
+                    tabIndex={props.tabIndex}
+                    autoComplete={props.autoComplete}
                     onChange={(e) => { handleChange(e.target.value) }}
                     onKeyPress={(e) => { permitKey(e, item); if (props.onKeyPress) { props.onKeyPress(e); } }}
                     onKeyDown={props.onKeyDown}
@@ -92,6 +94,8 @@ const InputText = (props: InputTextProps) => {
                     name={props.name}
                     placeholder={props.placeholder}
                     value={item?.value}
+                    tabIndex={props.tabIndex}
+                    autoComplete={props.autoComplete}
                     onChange={(e) => { handleChange(e.target.value) }}
                     onKeyPress={(e) => { permitKey(e, item); if (props.onKeyPress) { props.onKeyPress(e); } }}
                     onKeyDown={props.onKeyDown}

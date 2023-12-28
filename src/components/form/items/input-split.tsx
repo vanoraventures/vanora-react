@@ -48,7 +48,7 @@ const InputSplit = (props: InputSplitProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputs = event.currentTarget.parentElement?.querySelectorAll("input");
         let currentValue = "";
-        
+
         if (inputs) {
             for (var i = 0; i < inputs.length; i++) {
                 currentValue += inputs[i].value;
@@ -109,6 +109,8 @@ const InputSplit = (props: InputSplitProps) => {
             maxLength={1}
             type="text"
             value={item?.value.substr(i, 1) ?? ""}
+            tabIndex={props.tabIndex}
+            autoComplete={props.autoComplete}
             onChange={(e) => handleChange(e)} key={"input-split-" + i}
             onKeyPress={(e) => { permitKey(e, item); if (props.onKeyPress) { props.onKeyPress(e); } }}
             onKeyDown={(e) => { onKeyDown(e); if (props.onKeyDown) { props.onKeyDown(e); } }}

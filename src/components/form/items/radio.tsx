@@ -19,7 +19,7 @@ const Radio = (props: RadioProps) => {
         if (context.model.some(x => x.name === props.name)) {
             throw new Error("Development error ---> Each form element must have unique name!");
         }
-        
+
         context.setModel(model => {
             model.push({
                 name: props.name,
@@ -67,6 +67,8 @@ const Radio = (props: RadioProps) => {
                         name={props.name}
                         value={radio.value}
                         checked={radio.value === item?.value}
+                        tabIndex={props.tabIndex}
+                        autoComplete={props.autoComplete}
                         onChange={(e) => { handleChange(e.target.value) }}
                         onFocus={props.onFocus}
                         onBlur={props.onBlur}

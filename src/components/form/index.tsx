@@ -90,6 +90,8 @@ export type FormItemProps = {
     isValid?: boolean,
     classNames?: string,
     children?: JSX.Element | JSX.Element[] | string,
+    tabIndex?: number,
+    autoComplete?: string,
     onChange?: (value: string) => void,
     onFocus?: FocusEventHandler<HTMLElement>,
     onBlur?: FocusEventHandler<HTMLElement>
@@ -232,6 +234,7 @@ const Form = (props: FormProps) => {
 
     form.clear = () => {
         model.forEach(item => {
+            item.data = undefined;
             item.value = "";
             item.isValid = undefined;
             item.validations?.forEach(rule => {

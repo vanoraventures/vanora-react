@@ -79,6 +79,8 @@ const InputNumber = (props: InputNumberProps) => {
                 suffix={props.customization?.suffix}
                 prefix={props.customization?.prefix}
                 placeholder={props.placeholder}
+                tabIndex={props.tabIndex}
+                autoComplete={props.autoComplete}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => { handleChange(e.target.value) }}
                 onKeyPress={props.onKeyPress}
                 onKeyDown={props.onKeyDown}

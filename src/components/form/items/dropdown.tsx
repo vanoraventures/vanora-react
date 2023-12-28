@@ -83,6 +83,7 @@ const Dropdown = (props: DropdownProps) => {
                 name={props.name}
                 value={item?.value === "" || item?.value === undefined || item?.value === null ? null : props.options?.find(option => option.value === item?.value)}
                 options={props.options}
+                tabIndex={props.tabIndex}
                 onChange={(e) => { handleChange(e?.value) }}
                 onFocus={props.onFocus}
                 onBlur={props.onBlur}

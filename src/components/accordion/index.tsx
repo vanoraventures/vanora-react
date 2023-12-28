@@ -35,8 +35,35 @@ export const AccordionItemContext = React.createContext<ItemContextType | null>(
 /**
  * Must have AccordionItem component
  */
-const Accordion = (props: Props & { closeOthersOnOpen?: boolean }) => {
+const Accordion = (props: Props & { accordion?: AccordionType, closeOthersOnOpen?: boolean }) => {
     const [items, setItems] = useState<React.Dispatch<React.SetStateAction<boolean>>[]>([]);
+
+    if (props.accordion) {
+        props.accordion.open = (index?: number) => {
+            if (typeof (index) != "undefined") {
+                if (items[index]) {
+                    items[index](true);
+                }
+            }
+            else {
+                items.forEach((item) => {
+                    item(true);
+                });
+            }
+        }
+        props.accordion.close = (index?: number) => {
+            if (typeof (index) != "undefined") {
+                if (items[index]) {
+                    items[index](false);
+                }
+            }
+            else {
+                items.forEach((item) => {
+                    item(false);
+                });
+            }
+        }
+    }
 
     return (
         <AccordionContext.Provider value={{ closeOthersOnOpen: props.closeOthersOnOpen ?? false, items, setItems }}>
@@ -144,5 +171,26 @@ export const AccordionBody = (props: Props) =>
         onMouseLeave={props.onMouseLeave}>
         {props.children}
     </div>;
+
+export type AccordionType = {
+    /**
+    * Opens the specified accordion item. If index is not given opens all items.
+    */
+    open: (index?: number) => void,
+    /**
+    * Closes the specified accordion item. If index is not given closes all items.
+    */
+    close: (index?: number) => void
+}
+
+/**
+ * Returns an object to control Accordion.
+ */
+export function useAccordion(): AccordionType {
+    return {
+        open: () => { },
+        close: () => { }
+    };
+}
 
 export default Accordion;

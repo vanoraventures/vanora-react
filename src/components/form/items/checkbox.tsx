@@ -61,6 +61,8 @@ const Checkbox = (props: CheckboxProps) => {
                 id={props.name}
                 name={props.name}
                 checked={item?.value == "true"}
+                tabIndex={props.tabIndex}
+                autoComplete={props.autoComplete}
                 onChange={(e) => { handleChange(e.target.checked ? "true" : "") }}
                 onFocus={props.onFocus}
                 onBlur={props.onBlur}

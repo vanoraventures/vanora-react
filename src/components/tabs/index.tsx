@@ -13,6 +13,7 @@ type Props = {
 }
 
 type TabsProps = Props & {
+    tabs?: TabsType,
     startIndex?: number,
     onChange?: (index: number) => void
 }
@@ -29,6 +30,11 @@ const TabContext = React.createContext<TabContextType | null>(null) as React.Con
  */
 const Tabs = (props: TabsProps) => {
     const [index, setIndex] = useState(props.startIndex ? props.startIndex : 0);
+
+    if (props.tabs) {
+        props.tabs.index = index;
+        props.tabs.setIndex = setIndex;
+    }
 
     useEffect(() => {
         if (props.onChange) {
@@ -55,7 +61,7 @@ const Tabs = (props: TabsProps) => {
 /**
  * Must have TabMenuItem components
  */
-export const TabMenu = (props: Props & { children: JSX.Element[] }) => {
+export const TabMenu = (props: Props & { children: JSX.Element[] | JSX.Element }) => {
     return (
         <div
             className={"tab-menu" + (props.classNames ? " " + props.classNames : "")}
@@ -65,9 +71,15 @@ export const TabMenu = (props: Props & { children: JSX.Element[] }) => {
             onMouseMove={props.onMouseMove}
             onMouseEnter={props.onMouseEnter}
             onMouseLeave={props.onMouseLeave}>
-            {props.children.map((item, index) => {
-                return <TabMenuItem key={"tab-menu-item-" + index} {...item.props} index={index}></TabMenuItem>
-            })}
+            {(props.children as JSX.Element[]).length > 0 ?
+                <>
+                    {(props.children as JSX.Element[]).map((item, index) => {
+                        return <TabMenuItem key={"tab-menu-item-" + index} {...item.props} index={index}></TabMenuItem>
+                    })}
+                </>
+                :
+                <TabMenuItem key={"tab-menu-item-0"} {...(props.children as JSX.Element).props} index={0}></TabMenuItem>
+            }
         </div>
     );
 };
@@ -79,7 +91,7 @@ export const TabMenuItem = (props: Props & { index?: number }) => {
     const context = useContext(TabContext);
 
     const click = (event: any) => {
-        context.setIndex(props.index??0);
+        context.setIndex(props.index ?? 0);
 
         if (props.onClick) {
             props.onClick(event);
@@ -103,7 +115,7 @@ export const TabMenuItem = (props: Props & { index?: number }) => {
 /**
  * Must have TabItem components
  */
-export const TabContainer = (props: Props & { children: JSX.Element[] }) => {
+export const TabContainer = (props: Props & { children: JSX.Element[] | JSX.Element }) => {
     const context = useContext(TabContext);
 
     return (
@@ -115,11 +127,20 @@ export const TabContainer = (props: Props & { children: JSX.Element[] }) => {
             onMouseMove={props.onMouseMove}
             onMouseEnter={props.onMouseEnter}
             onMouseLeave={props.onMouseLeave}>
-            {props.children.map((item, index) => {
-                if (index === context.index && item.type === TabItem) {
-                    return item;
-                }
-            })}
+            {/* TODO: Render Html */}
+            {(props.children as JSX.Element[]).length > 0 ?
+                <>
+                    {(props.children as JSX.Element[]).map((item, index) => {
+                        if (index === context.index && item.type === TabItem) {
+                            return item;
+                        }
+                    })}
+                </>
+                :
+                <>
+                    {props.children}
+                </>
+            }
         </div>
     );
 };
@@ -141,5 +162,26 @@ export const TabItem = (props: Props) => {
         </div>
     );
 };
+
+export type TabsType = {
+    /**
+     * Active index.
+    */
+    index: number,
+    /**
+    * Manually changes the index.
+    */
+    setIndex: (index: number) => void
+}
+
+/**
+ * Returns an object to control Tabs.
+ */
+export function useTabs(): TabsType {
+    return {
+        index: 0,
+        setIndex: () => { }
+    };
+}
 
 export default Tabs;

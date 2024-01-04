@@ -14,6 +14,7 @@ export { default as InputNumber } from "./form/items/input-number";
 export { default as InputPassword } from "./form/items/input-password";
 export { default as InputSplit } from "./form/items/input-split";
 export { default as InputText } from "./form/items/input-text";
+export { default as InputHidden } from "./form/items/input-hidden";
 export { default as Radio } from "./form/items/radio";
 export { default as Textarea } from "./form/items/textarea";
 export { default as ErrorMessage } from "./form/items/errorMessage";

@@ -7,6 +7,7 @@ import Recaptcha from "./items/recaptcha";
 import FileUpload from "./items/file-upload";
 import Radio from "./items/radio";
 import InputDate from "./items/input-date";
+import InputHidden from "./items/input-hidden";
 
 export default {
     title: "Vanora-react/form",
@@ -36,12 +37,13 @@ const Template: Story = (args) => {
                 { label: "2", value: "2" }
             ]}></Radio> */}
             <InputDate name="date" value={test} customization={{ format: "dd/MM/yyyy", showYearDropdown: true }}></InputDate>
+            <InputHidden name="id" value="10"></InputHidden>
             {/* <FileUpload name="files" multiple={true}></FileUpload>
             <Checkbox name="test" value={true}></Checkbox> */}
             <button>Submit</button>
         </Form>
 
-        <button onClick={async () => { console.log(form.clear()); }}>Temizle</button>
+        <button onClick={async () => { console.log(await form.getAllJson()); }}>Temizle</button>
     </>
 };
 

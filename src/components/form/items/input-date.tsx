@@ -14,6 +14,12 @@ type InputDateProps = FormItemProps & FormMouseEvents & {
         minDate?: Date,
         maxDate?: Date,
         format?: string,
+        enableManualTyping?: boolean,
+        excludeDates?: Date[],
+        filterDates?: (date: Date) => boolean,
+        showYearDropdown?: boolean,
+        showMonthDropdown?: boolean,
+        yearDropdownRange?: number,
         submitFormat?: {
             locales?: string | string[],
             options?: Intl.DateTimeFormatOptions
@@ -94,8 +100,14 @@ const InputDate = (props: InputDateProps) => {
                 locale={tr}
                 minDate={props.customization?.minDate}
                 maxDate={props.customization?.maxDate}
+                excludeDates={props.customization?.excludeDates}
+                filterDate={props.customization?.filterDates}
+                scrollableYearDropdown={props.customization?.showYearDropdown}
+                showYearDropdown={props.customization?.showYearDropdown}
+                showMonthDropdown={props.customization?.showMonthDropdown}
+                yearDropdownItemNumber={props.customization?.yearDropdownRange}
                 onChange={(date: Date) => handleChange(date)}
-                onKeyDown={(e) => { e.preventDefault() }}
+                onKeyDown={(e) => { props.customization?.enableManualTyping ? undefined : e.preventDefault() }}
                 onFocus={props.onFocus}
                 onBlur={props.onBlur}
                 onClick={props.onClick}

@@ -35,7 +35,7 @@ const Template: Story = (args) => {
                 { label: "1", value: "1" },
                 { label: "2", value: "2" }
             ]}></Radio> */}
-            <InputDate name="date" value={test} customization={{ format: "dd/MM/yyyy" }}></InputDate>
+            <InputDate name="date" value={test} customization={{ format: "dd/MM/yyyy", showYearDropdown: true }}></InputDate>
             {/* <FileUpload name="files" multiple={true}></FileUpload>
             <Checkbox name="test" value={true}></Checkbox> */}
             <button>Submit</button>

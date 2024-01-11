@@ -27,20 +27,21 @@ const Dropdown = (props: DropdownProps) => {
     const [isActive, setActive] = useState(false);
 
     useEffect(() => {
-        if (context.model.some(x => x.name === props.name)) {
-            throw new Error("Development error ---> Each form element must have unique name!");
-        }
-
         context.setModel(model => {
-            model.push({
-                name: props.name,
-                value: props.value ?? "",
-                type: FormItemType.Dropdown,
-                validations: props.validations,
-                isValid: (props.validations ? props.isValid : true)
-            });
+            if (model.some(x => x.name === props.name)) {
+                throw new Error("Development error ---> Each form element must have unique name!");
+            }
+            else {
+                model.push({
+                    name: props.name,
+                    value: props.value ?? "",
+                    type: FormItemType.Dropdown,
+                    validations: props.validations,
+                    isValid: (props.validations ? props.isValid : true)
+                });
 
-            return [...model];
+                return [...model];
+            }
         });
 
         return () => {
@@ -49,10 +50,15 @@ const Dropdown = (props: DropdownProps) => {
     }, []);
 
     useEffect(() => {
-        if (item) {
-            item.value = props.value ?? "";
-            context.setModel([...context.model]);
-        }
+        context.setModel(model => {
+            const target = model.find(x => x.name == props.name);
+
+            if (target) {
+                target.value = props.value ?? "";
+            }
+
+            return [...model];
+        });
     }, [props.value]);
 
     const handleChange = (value: any) => {

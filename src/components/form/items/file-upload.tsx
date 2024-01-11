@@ -15,21 +15,22 @@ const FileUpload = (props: FileUploadProps) => {
     const item = context.model.find(x => x.name === props.name);
 
     useEffect(() => {
-        if (context.model.some(x => x.name === props.name)) {
-            throw new Error("Development error ---> Each form element must have unique name!");
-        }
-
         context.setModel(model => {
-            model.push({
-                name: props.name,
-                value: props.value ?? "",
-                type: props.multiple ? FormItemType.MultipleFile : FormItemType.File,
-                validations: props.validations,
-                isValid: (props.validations ? props.isValid : true),
-                data: ""
-            });
+            if (model.some(x => x.name === props.name)) {
+                throw new Error("Development error ---> Each form element must have unique name!");
+            }
+            else {
+                model.push({
+                    name: props.name,
+                    value: props.value ?? "",
+                    type: props.multiple ? FormItemType.MultipleFile : FormItemType.File,
+                    validations: props.validations,
+                    isValid: (props.validations ? props.isValid : true),
+                    data: ""
+                });
 
-            return [...model];
+                return [...model];
+            }
         });
 
         return () => {
@@ -38,10 +39,15 @@ const FileUpload = (props: FileUploadProps) => {
     }, []);
 
     useEffect(() => {
-        if (item) {
-            item.value = props.value ?? "";
-            context.setModel([...context.model]);
-        }
+        context.setModel(model => {
+            const target = model.find(x => x.name == props.name);
+
+            if (target) {
+                target.value = props.value ?? "";
+            }
+
+            return [...model];
+        });
     }, [props.value]);
 
     const handleChange = (input: EventTarget & HTMLInputElement) => {

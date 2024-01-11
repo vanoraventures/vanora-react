@@ -16,34 +16,44 @@ export default {
 
 const Template: Story = (args) => {
     const form = useForm();
-    const [test, setTest] = useState<string | undefined>();
+    const [render, setRender] = useState(0);
+    const [test, setTest] = useState<any[]>([{ Id: 0, Value: "0" }]);
 
     useEffect(() => {
         setTimeout(() => {
-            setTest("2023-12-06T00:00:00");
-        }, 3000);
+            setTest([{ Id: 33, Value: "33" }]);
+        }, 300);
+
+        // setTimeout(() => {
+        //     setRender(1);
+        // }, 5000);
     }, []);
 
     return <>
-        {/* <Recaptcha siteKey="6Lcv1HkoAAAAAPrWnLBgdKGa2UHOiZk5jNDThH3I" /> */}
-        <Form form={form} onSubmit={async (model: FormType) => {
-            for (var pair of (await model.getFormData() as any).entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-            }
-            // console.log(await model.getFormData());
-        }}>
-            {/* <Radio value={test} name="asd" options={[
-                { label: "1", value: "1" },
-                { label: "2", value: "2" }
-            ]}></Radio> */}
-            <InputDate name="date" value={test} customization={{ format: "dd/MM/yyyy", showYearDropdown: true }}></InputDate>
-            <InputHidden name="id" value="10"></InputHidden>
-            {/* <FileUpload name="files" multiple={true}></FileUpload>
-            <Checkbox name="test" value={true}></Checkbox> */}
+        <Form form={form} onSubmit={async (model: FormType) => console.log(model.getAll())}>
+            <>
+                {test.map((item, index) =>
+                    <>
+                        <InputText key={"test" + item.Id} name={"name-" + index.toString()} value={item.Value}></InputText>
+                        {true &&
+                            <button type="button" onClick={async () => {
+                                setTest(prev => {
+                                    return prev.filter((x, i) => index != i);
+                                });
+                            }}>Çıkar</button>
+                        }
+                    </>
+                )}
+            </>
+            <br></br>
             <button>Submit</button>
         </Form>
 
-        <button onClick={async () => { console.log(await form.getAllJson()); }}>Temizle</button>
+        <button onClick={async () => {
+            setTest(prev => {
+                return [...prev, { Id: 0, Value: "0" }]
+            });
+        }}>Ekle</button>
     </>
 };
 

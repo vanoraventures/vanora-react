@@ -1,5 +1,5 @@
 import "./form.scss";
-import React, { FocusEventHandler, KeyboardEventHandler, MouseEventHandler, useState } from "react";
+import React, { FocusEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useState } from "react";
 import { validateFormItem, Validation } from "./models/validations";
 import { Permission } from "./models/permissions";
 import useVanoraStore from "../../core/core";
@@ -15,6 +15,10 @@ export type FormType = {
     * Clears all form elements.
     */
     clear: () => void,
+    /**
+    * Refreshes all form elements.
+    */
+    refresh: () => void,
     /**
     * Gets form element data as FormItem type.
     */
@@ -54,7 +58,7 @@ export type FormType = {
     /**
     * Validates all form elements.
     */
-    validateAll: () => boolean,
+    validateAll: (showErrors?: boolean) => boolean,
     /**
     * Checks specified form element is valid or not.
     */
@@ -135,6 +139,7 @@ export const FormContext = React.createContext<FormContextType | null>(null) as 
 const Form = (props: FormProps) => {
     const [model, setModel] = useState<FormItem[]>([]);
     const form = useForm();
+    const [seed, setSeed] = useState(Math.random());
     const getRecaptchaToken = useVanoraStore(state => state.getRecaptchaToken);
 
     form.get = (name: string): FormItem | undefined => {
@@ -220,10 +225,14 @@ const Form = (props: FormProps) => {
         return item?.isValid ?? true;
     };
 
-    form.validateAll = (): boolean => {
+    form.validateAll = (showErrors?: boolean): boolean => {
         model.forEach(item => {
             validateFormItem(item, model);
         });
+
+        if (showErrors) {
+            setModel([...model]);
+        }
 
         return model.every(x => x.isValid);
     };
@@ -243,6 +252,10 @@ const Form = (props: FormProps) => {
         });
 
         setModel([...model]);
+    }
+
+    form.refresh = () => {
+        setSeed(Math.random());
     }
 
     const getRecaptchaData = async () => {
@@ -269,6 +282,7 @@ const Form = (props: FormProps) => {
     if (props.form) {
         props.form.submit = handleSubmit;
         props.form.clear = form.clear;
+        props.form.refresh = form.refresh;
         props.form.get = form.get;
         props.form.getAll = form.getAll;
         props.form.getAllJson = form.getAllJson;
@@ -285,7 +299,7 @@ const Form = (props: FormProps) => {
     return (
         <>
             <FormContext.Provider value={{ model, setModel }}>
-                <form className={(props.classNames ? " " + props.classNames : "general")} onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} noValidate>
+                <form key={seed} className={(props.classNames ? " " + props.classNames : "general")} onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} noValidate>
                     {(typeof props.children).toLocaleLowerCase() == "function" ?
                         (props.children as Function)()
                         :
@@ -304,6 +318,7 @@ export function useForm(): FormType {
     return {
         submit: () => { },
         clear: () => { },
+        refresh: () => { },
         get: () => undefined,
         getAll: () => undefined,
         getAllJson: async () => undefined,

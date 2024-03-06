@@ -10,6 +10,7 @@ export type Validation = {
 
 export enum ValidationType {
     Required,
+    OptionalRequired,
     Email,
     Tckn,
     MinLength,
@@ -23,6 +24,13 @@ export const Validate = {
     Required: (message?: string | JSX.Element): Validation => {
         return {
             type: ValidationType.Required,
+            message: message
+        }
+    },
+    OptionalRequired: (items: string[], message?: string | JSX.Element): Validation => {
+        return {
+            type: ValidationType.OptionalRequired,
+            value: items,
             message: message
         }
     },
@@ -86,6 +94,20 @@ export const validateFormItem = (item: FormItem, items: FormItem[]) => {
                 if (item.value.length === 0) {
                     validation.isValid = false;
                 }
+            }
+            if (validation.type === ValidationType.OptionalRequired) {
+                const optionalRequriredItems = items.filter(x => validation.value.indexOf(x.name) != -1 || x.name == item.name);
+                const isValid = !optionalRequriredItems.every(x => x.value.length === 0);
+
+                optionalRequriredItems.forEach(x => {
+                    const optionalRequriredItemValidation = x.validations?.find(y => y.type == ValidationType.OptionalRequired);
+
+                    if (optionalRequriredItemValidation) {
+                        optionalRequriredItemValidation.isValid = isValid;
+                    }
+
+                    x.isValid = x.validations?.every(y => y.isValid);
+                });
             }
             if (validation.type === ValidationType.Email) {
                 if (item.value.length > 0 && !(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(item.value))) {

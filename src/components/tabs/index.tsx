@@ -34,6 +34,7 @@ const Tabs = (props: TabsProps) => {
     if (props.tabs) {
         props.tabs.index = index;
         props.tabs.setIndex = setIndex;
+        props.tabs.openAll = () => { setIndex(-1) };
     }
 
     useEffect(() => {
@@ -87,11 +88,11 @@ export const TabMenu = (props: Props & { children: JSX.Element[] | JSX.Element }
 /**
  * TabMenuItem can have any children
  */
-export const TabMenuItem = (props: Props & { index?: number }) => {
+export const TabMenuItem = (props: Props & { index?: number, openAll?: boolean }) => {
     const context = useContext(TabContext);
 
     const click = (event: any) => {
-        context.setIndex(props.index ?? 0);
+        context.setIndex(props.openAll ? -1 : (props.index ?? 0));
 
         if (props.onClick) {
             props.onClick(event);
@@ -131,7 +132,9 @@ export const TabContainer = (props: Props & { children: JSX.Element[] | JSX.Elem
             {(props.children as JSX.Element[]).length > 0 ?
                 <>
                     {(props.children as JSX.Element[]).map((item, index) => {
-                        if (index === context.index && item.type === TabItem) {
+                        console.log("TAB ITEM", index);
+
+                        if (context.index === -1 || (index === context.index && item.type === TabItem)) {
                             return item;
                         }
                     })}
@@ -171,7 +174,11 @@ export type TabsType = {
     /**
     * Manually changes the index.
     */
-    setIndex: (index: number) => void
+    setIndex: (index: number) => void,
+    /**
+    * Opens all tabs.
+    */
+    openAll: () => void
 }
 
 /**
@@ -180,7 +187,8 @@ export type TabsType = {
 export function useTabs(): TabsType {
     return {
         index: 0,
-        setIndex: () => { }
+        setIndex: () => { },
+        openAll: () => { }
     };
 }
 

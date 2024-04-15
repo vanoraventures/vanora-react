@@ -17,12 +17,19 @@ export default {
 
 const Template: Story = (args) => {
     const form = useForm();
+    const [test, setTest] = useState(new Date("2024/04/16"));
+
+    useEffect(() => {
+        setTimeout(() => {
+            setTest(new Date("2024/04/25"));
+        }, 2000);
+    }, []);
 
     return <>
         <Form form={form} onSubmit={async (model: FormType) => console.log("test", model.getAll())}>
-            <InputText name={"name1"} validations={[Validate.OptionalRequired(["name1", "name2", "name3"])]}></InputText>
-            <InputText name={"name2"} validations={[Validate.OptionalRequired(["name1", "name2", "name3"])]}></InputText>
-            <InputText name={"name3"} validations={[Validate.OptionalRequired(["name1", "name2", "name3"])]}></InputText>
+            <InputDate name="test" value={test.toString()} onChange={value => {
+                console.log("CHANGE", value);
+            }}></InputDate>
             <br></br>
             <button>Submit</button>
         </Form>

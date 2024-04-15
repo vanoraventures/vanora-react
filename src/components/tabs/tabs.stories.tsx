@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Story } from "@storybook/react";
 import Tabs, { TabContainer, TabItem, TabMenu, TabMenuItem, useTabs } from ".";
 
@@ -12,12 +12,15 @@ const Template: Story = (args) => {
 
     return <>
         <Tabs {...args} tabs={tabs} onChange={(index) => { console.log("current-index: " + index) }}>
-            <TabMenu onClick={() => { console.log("tab-menu click") }}>
-                <TabMenuItem key={"tab-menu-1"} onClick={() => { console.log("tab-menu-item-1 click") }}>
+            <TabMenu>
+                <TabMenuItem key={"tab-menu-1"}>
                     Tab 1
                 </TabMenuItem>
                 <TabMenuItem key={"tab-menu-2"}>
                     Tab 2
+                </TabMenuItem>
+                <TabMenuItem key={"tab-menu-all"} openAll={true}>
+                    ALL
                 </TabMenuItem>
             </TabMenu>
             <TabContainer>
@@ -29,7 +32,7 @@ const Template: Story = (args) => {
                 </TabItem>
             </TabContainer>
         </Tabs>
-        <button onClick={() => { tabs.setIndex(1) }}>test</button>
+        <button onClick={() => { tabs.openAll() }}>TÜMÜ</button>
     </>
 }
 

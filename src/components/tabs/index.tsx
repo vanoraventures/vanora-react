@@ -101,7 +101,7 @@ export const TabMenuItem = (props: Props & { index?: number, openAll?: boolean }
 
     return (
         <div
-            className={"tab-menu-item" + (props.classNames ? " " + props.classNames : "") + (context.index === props.index ? " active" : "")}
+            className={"tab-menu-item" + (props.classNames ? " " + props.classNames : "") + (context.index === props.index || (context.index === -1 && props.openAll) ? " active" : "")}
             onClick={click}
             onMouseDown={props.onMouseDown}
             onMouseUp={props.onMouseUp}
@@ -132,8 +132,6 @@ export const TabContainer = (props: Props & { children: JSX.Element[] | JSX.Elem
             {(props.children as JSX.Element[]).length > 0 ?
                 <>
                     {(props.children as JSX.Element[]).map((item, index) => {
-                        console.log("TAB ITEM", index);
-
                         if (context.index === -1 || (index === context.index && item.type === TabItem)) {
                             return item;
                         }

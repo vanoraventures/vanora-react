@@ -10,7 +10,7 @@ type VanoraStore = {
     size: {
         width?: number,
         height?: number,
-        isMobile: boolean
+        isMobile?: boolean
     },
     increaseLoading: () => void,
     decreaseLoading: () => void,
@@ -26,9 +26,9 @@ const useVanoraStore = create<VanoraStore>(set => ({
         lockedScrollCount: 0
     },
     size: {
-        width: typeof (window) != "undefined" ? window.innerWidth : 0,
-        height: typeof (window) != "undefined" ? window.innerHeight : 0,
-        isMobile: typeof (window) != "undefined" ? window.innerWidth <= 900 : false
+        width: undefined,
+        height: undefined,
+        isMobile: undefined
     },
     increaseLoading: () => set((state) => { return { ...state, loading: state.loading + 1 } }),
     decreaseLoading: () => set((state) => { return { ...state, loading: state.loading - 1 } }),
@@ -38,8 +38,8 @@ const useVanoraStore = create<VanoraStore>(set => ({
 
 if (typeof (window) != "undefined") {
     let timeout: NodeJS.Timeout;
-
-    window.addEventListener("resize", function () {
+    
+    const resize = () => {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             useVanoraStore.getState().setSize({
@@ -48,7 +48,11 @@ if (typeof (window) != "undefined") {
                 isMobile: window.innerWidth <= 900
             });
         }, 250);
-    });
+    }
+
+    window.addEventListener("resize", resize);
+    window.addEventListener("load", resize);
+    //TODO: NEXT ERROR
 }
 
 export default useVanoraStore;

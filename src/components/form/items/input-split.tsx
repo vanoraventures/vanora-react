@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { HTMLInputTypeAttribute, useContext, useEffect } from 'react';
 import { FormContext, FormItemProps, FormItemType, FormKeyEvents, FormMouseEvents } from '..';
 import { permitKey, Permission } from '../models/permissions';
 import { validateFormItem } from '../models/validations';
@@ -8,6 +8,7 @@ type InputSplitProps = FormItemProps & FormKeyEvents & FormMouseEvents & {
     charCount: number,
     isDisabled?: boolean,
     label?: string,
+    type?: HTMLInputTypeAttribute,
     permissions?: Permission[]
 }
 
@@ -113,7 +114,7 @@ const InputSplit = (props: InputSplitProps) => {
     for (let i = 0; i < props.charCount; i++) {
         items.push(<input
             maxLength={1}
-            type="text"
+            type={props.type??"text"}
             value={item?.value.substr(i, 1) ?? ""}
             tabIndex={props.tabIndex}
             autoComplete={props.autoComplete}

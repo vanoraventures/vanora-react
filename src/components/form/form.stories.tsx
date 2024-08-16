@@ -9,6 +9,7 @@ import Radio from "./items/radio";
 import InputDate from "./items/input-date";
 import InputHidden from "./items/input-hidden";
 import { Validate } from "./models/validations";
+import { Permit } from "./models/permissions";
 
 export default {
     title: "Vanora-react/form",
@@ -27,8 +28,21 @@ const Template: Story = (args) => {
 
     return <>
         <Form form={form} onSubmit={async (model: FormType) => console.log("test", model.getAll())}>
-            <InputDate name="test" value={test.toString()} onChange={value => {
-                console.log("CHANGE", value);
+            <InputDate name="test" value={test.toString()} permissions={[Permit.Custom(e => {
+                if (e.key == "-" || e.key == ".") {
+                    e.preventDefault();
+                    return false;
+                }
+                return true;
+            })]} customization={{ enableManualTyping: true }} onKeyPress={e => {
+                const item = e.target as HTMLInputElement;
+
+                if (item.value.length == 2) {
+                    form.setVal("BirthDate", item.value + "/");
+                }
+                else if (item.value.length == 5) {
+                    form.setVal("BirthDate", item.value + "/");
+                }
             }}></InputDate>
             <br></br>
             <button>Submit</button>

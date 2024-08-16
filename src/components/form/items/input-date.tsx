@@ -4,12 +4,14 @@ import DatePicker from "react-datepicker";
 import tr from "date-fns/locale/tr";
 import { useState } from "react";
 import { validateFormItem } from '../models/validations';
-import { FormContext, FormItemProps, FormItemType, FormMouseEvents } from '..';
+import { FormContext, FormItemProps, FormItemType, FormKeyEvents, FormMouseEvents } from '..';
+import { Permission, permitKey } from '../models/permissions';
 
-type InputDateProps = FormItemProps & FormMouseEvents & {
+type InputDateProps = FormItemProps & FormKeyEvents & FormMouseEvents & {
     isDisabled?: boolean,
     label?: string,
     placeholder?: string,
+    permissions?: Permission[],
     customization?: {
         minDate?: Date,
         maxDate?: Date,
@@ -43,6 +45,7 @@ const InputDate = (props: InputDateProps) => {
                     value: props.value ?? "",
                     type: FormItemType.Input,
                     validations: props.validations,
+                    permissions: props.permissions,
                     isValid: (props.validations ? props.isValid : true)
                 });
 
@@ -77,7 +80,7 @@ const InputDate = (props: InputDateProps) => {
     }, [props.value]);
 
     const handleChange = (date: Date) => {
-        const value = date.toLocaleString(props.customization?.submitFormat?.locales ?? "tr-TR", props.customization?.submitFormat?.options ?? { year: 'numeric', month: 'numeric', day: 'numeric' });
+        const value = date?.toLocaleString(props.customization?.submitFormat?.locales ?? "tr-TR", props.customization?.submitFormat?.options ?? { year: 'numeric', month: 'numeric', day: 'numeric' });
 
         if (item) {
             item.value = value;
@@ -121,7 +124,18 @@ const InputDate = (props: InputDateProps) => {
                 showMonthDropdown={props.customization?.showMonthDropdown}
                 yearDropdownItemNumber={props.customization?.yearDropdownRange}
                 onChange={(date: Date) => handleChange(date)}
-                onKeyDown={(e) => { props.customization?.enableManualTyping ? undefined : e.preventDefault() }}
+                onKeyDown={(e) => {
+                    if (props.customization?.enableManualTyping) {
+                        permitKey(e, item);
+                        
+                        if (props.onKeyPress) {
+                            props.onKeyPress(e);
+                        }
+                    }
+                    else {
+                        e.preventDefault();
+                    }
+                }}
                 onFocus={props.onFocus}
                 onBlur={props.onBlur}
                 onClick={props.onClick}

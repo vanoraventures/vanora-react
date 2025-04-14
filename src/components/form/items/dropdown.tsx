@@ -12,6 +12,7 @@ type DropdownProps = FormItemProps & {
     isDisabled?: boolean,
     isSearchable?: boolean,
     isClearable?: boolean,
+    isMultiple?: boolean,
     options: {
         value: string | React.ReactElement | React.ReactElement[],
         label: string
@@ -25,6 +26,23 @@ const Dropdown = (props: DropdownProps) => {
     const context = useContext(FormContext);
     const item = context.model.find(x => x.name === props.name);
     const [isActive, setActive] = useState(false);
+
+    const selectedValue = (() => {
+        if (!item || !props.options) return null;
+
+        if (item.value === "" || item.value === undefined || item.value === null) {
+            return props.isMultiple ? [] : null;
+        }
+
+        if (props.isMultiple) {
+            const values = item.value.split(',');
+            return props.options.filter(opt => values.includes(opt.value.toString()));
+        }
+
+        return props.options.find(option => option.value === item.value);
+    })();
+
+
 
     useEffect(() => {
         context.setModel(model => {
@@ -62,6 +80,8 @@ const Dropdown = (props: DropdownProps) => {
     }, [props.value]);
 
     const handleChange = (value: any) => {
+        value = props.isMultiple ? value.map((v: any) => v.value).join(',') : value.value;
+
         if (item) {
             item.value = value;
             validateFormItem(item, context.model);
@@ -87,10 +107,10 @@ const Dropdown = (props: DropdownProps) => {
                 classNamePrefix="select"
                 placeholder={props.placeholder}
                 name={props.name}
-                value={item?.value === "" || item?.value === undefined || item?.value === null ? null : props.options?.find(option => option.value === item?.value)}
+                value={selectedValue}
                 options={props.options}
                 tabIndex={props.tabIndex}
-                onChange={(e) => { handleChange(e?.value) }}
+                onChange={handleChange}
                 onFocus={props.onFocus}
                 onBlur={props.onBlur}
                 onKeyDown={props.onKeyDown}
@@ -100,6 +120,7 @@ const Dropdown = (props: DropdownProps) => {
                 isRtl={props.isRtl}
                 isSearchable={props.isSearchable}
                 isClearable={props.isClearable}
+                isMulti={props.isMultiple}
             />
             {props.children}
             <ErrorMessage rules={item?.validations} />

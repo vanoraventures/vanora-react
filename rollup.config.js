@@ -3,20 +3,18 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import postcss from "rollup-plugin-postcss";
-import { terser } from "rollup-plugin-terser";
+// import { terser } from "rollup-plugin-terser";
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import { readFileSync } from "fs";
 
-const packageJson = require("./package.json");
+const packageJson = JSON.parse(
+  readFileSync(new URL("./package.json", import.meta.url))
+);
 
 export default [
     {
         input: "src/index.ts",
         output: [
-            {
-                file: packageJson.main,
-                format: "cjs",
-                sourcemap: false,
-            },
             {
                 file: packageJson.module,
                 format: "esm",
@@ -27,9 +25,27 @@ export default [
             peerDepsExternal(),
             resolve(),
             commonjs(),
-            typescript({ tsconfig: "./tsconfig.json" }),
-            postcss({ extract: true }),
-            terser(),
+            typescript({ tsconfig: './tsconfig.json', declarationDir: 'dist/esm/types' }),
+            postcss({ extract: true, modules: false, use: ['sass'] }),
+            // terser(),
+        ],
+    },
+    {
+        input: "src/index.ts",
+        output: [
+            {
+                file: packageJson.main,
+                format: "cjs",
+                sourcemap: false,
+            },
+        ],
+        plugins: [
+            peerDepsExternal(),
+            resolve(),
+            commonjs(),
+            typescript({ tsconfig: './tsconfig.json', declarationDir: 'dist/cjs/types' }),
+            postcss({ extract: true, modules: false, use: ['sass'] }),
+            // terser(),
         ],
     },
     {

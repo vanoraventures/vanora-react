@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import ErrorMessage from './errorMessage';
 import DatePicker from "react-datepicker";
-import tr from "date-fns/locale/tr";
+import { tr } from "date-fns/locale/tr";
 import { useState } from "react";
 import { validateFormItem } from '../models/validations';
 import { FormContext, FormItemProps, FormItemType, FormKeyEvents, FormMouseEvents } from '..';

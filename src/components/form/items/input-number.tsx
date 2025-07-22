@@ -1,5 +1,5 @@
 import ErrorMessage from './errorMessage';
-import NumberFormat from 'react-number-format';
+import { NumericFormat } from 'react-number-format';
 import React, { useContext, useEffect } from 'react';
 import { validateFormItem } from '../models/validations';
 import { FormContext, FormItemProps, FormItemType, FormKeyEvents, FormMouseEvents } from '..';
@@ -75,7 +75,7 @@ const InputNumber = (props: InputNumberProps) => {
             {props.label &&
                 <label>{props.label}</label>
             }
-            <NumberFormat
+            <NumericFormat
                 name={props.name}
                 value={item?.value ?? ""}
                 thousandSeparator={props.customization?.thousandSeparator}

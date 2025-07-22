@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Story } from "@storybook/react";
+import { StoryFn } from "@storybook/react";
 import Tabs, { TabContainer, TabItem, TabMenu, TabMenuItem, useTabs } from ".";
 
 export default {
@@ -7,7 +7,7 @@ export default {
     component: Tabs,
 };
 
-const Template: Story = (args) => {
+const Template: StoryFn = (args) => {
     const tabs = useTabs();
 
     return <>

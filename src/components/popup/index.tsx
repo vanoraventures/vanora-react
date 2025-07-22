@@ -13,7 +13,7 @@ export type PopupProps = {
 
 type Popup = {
     open: () => void,
-    close: () => void
+    close: (preventOnClose?: boolean) => void
 }
 
 /**
@@ -32,11 +32,11 @@ const Popup = (props: PopupProps) => {
         }
     }
 
-    const close = () => {
+    const close = (preventOnClose?: boolean) => {
         unlockScroll();
         setState("closed");
 
-        if (props.onClose) {
+        if (!preventOnClose && props.onClose) {
             props.onClose();
         }
     }
@@ -52,7 +52,7 @@ const Popup = (props: PopupProps) => {
         }
 
         return () => {
-            close();
+            close(true);
         }
     }, []);
 

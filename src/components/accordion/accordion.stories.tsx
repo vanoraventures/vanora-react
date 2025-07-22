@@ -1,5 +1,5 @@
 import React from "react";
-import { Story } from "@storybook/react";
+import { StoryFn } from "@storybook/react";
 import { AccordionBody, AccordionHeader, AccordionItem, useAccordion } from ".";
 import Accordion from ".";
 
@@ -8,7 +8,7 @@ export default {
     component: Accordion,
 };
 
-const Template: Story = (args) => {
+const Template: StoryFn = (args) => {
     const accordion = useAccordion();
 
     return <>

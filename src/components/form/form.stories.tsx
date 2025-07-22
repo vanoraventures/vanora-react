@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Story } from "@storybook/react";
+import { StoryFn } from "@storybook/react";
 import Form, { useForm, FormType } from ".";
 import InputText from "./items/input-text";
 import Checkbox from "./items/checkbox";
@@ -10,13 +10,14 @@ import InputDate from "./items/input-date";
 import InputHidden from "./items/input-hidden";
 import { Validate } from "./models/validations";
 import { Permit } from "./models/permissions";
+import InputEmail from "./items/input-email";
 
 export default {
     title: "Vanora-react/form",
     component: Form,
 };
 
-const Template: Story = (args) => {
+const Template: StoryFn = (args) => {
     const form = useForm();
     const [test, setTest] = useState(new Date("2024/04/16"));
 
@@ -28,7 +29,7 @@ const Template: Story = (args) => {
 
     return <>
         <Form form={form} onSubmit={async (model: FormType) => console.log("test", model.getAll())}>
-            <InputDate name="test" value={test.toString()} permissions={[Permit.Custom(e => {
+            {/* <InputDate name="test" value={test.toString()} permissions={[Permit.Custom(e => {
                 if (e.key == "-" || e.key == ".") {
                     e.preventDefault();
                     return false;
@@ -43,7 +44,13 @@ const Template: Story = (args) => {
                 else if (item.value.length == 5) {
                     form.setVal("BirthDate", item.value + "/");
                 }
-            }}></InputDate>
+            }}></InputDate> */}
+            <InputText
+                name={"Test"}
+            />
+            <InputEmail
+                name={"Test2"}
+            />
             <br></br>
             <button>Submit</button>
         </Form>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Story } from "@storybook/react";
+import { StoryFn } from "@storybook/react";
 import Popup, { PopupProps, usePopup } from ".";
 
 export default {
@@ -7,12 +7,12 @@ export default {
     component: Popup,
 };
 
-const Template: Story<PopupProps> = (args: PopupProps) => {
+const Template: StoryFn<PopupProps> = (args: PopupProps) => {
     const popup = usePopup();
 
     return <>
         <button onClick={() => popup.open()}>Open</button>
-        <Popup popup={popup} onOpen={() => { console.log("opened") }} onClose={() => { console.log("closed") }}>
+        <Popup popup={popup} onOpen={() => { console.log("popup opened") }} onClose={() => { console.log("popup closed") }}>
             <div className="popup-container">
                 <div className="content">
                     Test

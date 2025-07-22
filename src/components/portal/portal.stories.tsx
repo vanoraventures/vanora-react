@@ -1,5 +1,5 @@
 import React from "react";
-import { Story } from "@storybook/react";
+import { StoryFn } from "@storybook/react";
 import Portal, { PortalProps } from ".";
 
 export default {
@@ -7,7 +7,7 @@ export default {
     component: Portal,
 };
 
-const Template: Story<PortalProps> = (args: PortalProps) =>
+const Template: StoryFn<PortalProps> = (args: PortalProps) =>
     <Portal {...args}>
         <div>test</div>
         <div>test2</div>

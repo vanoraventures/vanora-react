@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import ErrorMessage from './errorMessage';
 import InputMask from "react-input-mask";
+import { IMaskInput } from 'react-imask';
 import { permitKey, Permission } from '../models/permissions';
 import { FormContext, FormItemProps, FormItemType, FormKeyEvents, FormMouseEvents } from '..';
 import { validateFormItem } from '../models/validations';
@@ -10,7 +11,7 @@ type InputTextProps = FormItemProps & FormKeyEvents & FormMouseEvents & {
     label?: string,
     placeholder?: string,
     permissions?: Permission[]
-    mask?: string | (string | RegExp)[]
+    mask?: string
 }
 
 const InputText = (props: InputTextProps) => {
@@ -72,15 +73,15 @@ const InputText = (props: InputTextProps) => {
                 <label>{props.label}</label>
             }
             {props.mask ?
-                <InputMask
+                <IMaskInput
                     type="text"
                     name={props.name}
                     placeholder={props.placeholder}
-                    value={item?.value}
+                    value={item?.value ?? ""}
                     mask={props.mask}
                     tabIndex={props.tabIndex}
                     autoComplete={props.autoComplete}
-                    onChange={(e) => { handleChange(e.target.value) }}
+                    onAccept={(value, mask) => { handleChange(value) }}
                     onKeyPress={(e) => { permitKey(e, item); if (props.onKeyPress) { props.onKeyPress(e); } }}
                     onKeyDown={props.onKeyDown}
                     onKeyUp={props.onKeyUp}
@@ -99,7 +100,7 @@ const InputText = (props: InputTextProps) => {
                     type="text"
                     name={props.name}
                     placeholder={props.placeholder}
-                    value={item?.value}
+                    value={item?.value ?? ""}
                     tabIndex={props.tabIndex}
                     autoComplete={props.autoComplete}
                     onChange={(e) => { handleChange(e.target.value) }}

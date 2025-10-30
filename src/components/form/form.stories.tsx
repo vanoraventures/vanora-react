@@ -11,6 +11,8 @@ import InputHidden from "./items/input-hidden";
 import { Validate } from "./models/validations";
 import { Permit } from "./models/permissions";
 import InputEmail from "./items/input-email";
+import Loading from "../loading";
+import { useLockScroll } from "../../core";
 
 export default {
     title: "Vanora-react/form",
@@ -18,6 +20,7 @@ export default {
 };
 
 const Template: StoryFn = (args) => {
+    const [lockScroll, unlockScroll] = useLockScroll();
     const form = useForm();
     const [test, setTest] = useState(new Date("2024/04/16"));
 
@@ -28,6 +31,7 @@ const Template: StoryFn = (args) => {
     }, []);
 
     return <>
+        <Loading />
         <Form form={form} onSubmit={async (model: FormType) => console.log("test", model.getAll())}>
             {/* <InputDate name="test" value={test.toString()} permissions={[Permit.Custom(e => {
                 if (e.key == "-" || e.key == ".") {

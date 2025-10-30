@@ -12,7 +12,7 @@ const Template: StoryFn<PopupProps> = (args: PopupProps) => {
 
     return <>
         <button onClick={() => popup.open()}>Open</button>
-        <Popup popup={popup} onOpen={() => { console.log("popup opened") }} onClose={() => { console.log("popup closed") }}>
+        <Popup popup={popup} onOpen={() => { console.log("popup opened") }} onClose={() => { console.log("popup closed") }} disableCloseClick={true}>
             <div className="popup-container">
                 <div className="content">
                     Test

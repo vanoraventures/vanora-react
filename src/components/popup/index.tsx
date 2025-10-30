@@ -7,6 +7,7 @@ export type PopupProps = {
     isOpen?: boolean,
     classNames?: string,
     children: JSX.Element | JSX.Element[] | string,
+    disableCloseClick?: boolean,
     onOpen?: () => void,
     onClose?: () => void
 }
@@ -63,7 +64,7 @@ const Popup = (props: PopupProps) => {
     }
 
     return (
-        <div className={"popup-wrapper " + state + (props.classNames ? " " + props.classNames : "")} onClick={closeClick}>
+        <div className={"popup-wrapper " + state + (props.classNames ? " " + props.classNames : "")} onClick={props.disableCloseClick ? undefined : closeClick}>
             {props.children}
         </div>
     );

@@ -1,6 +1,6 @@
 {
   "name": "vanora-react",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Vanora Ventures React Library",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
